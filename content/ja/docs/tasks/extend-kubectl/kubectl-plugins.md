@@ -42,14 +42,19 @@ Krewは、Kubernetes SIG CLIコミュニティによってメンテナンスさ�
 コミュニティによって精選された [plugin index](https://krew.sigs.k8s.io/plugins/) から、`kubectl` プラグインを見つけたりインストールしたりするために [Krew](https://krew.dev/) を使うことができます。
 
 
+#### 制限
+
+既存の `kubectl` コマンドを上書きするプラグインを作ることは現時点で不可能です。
+例えば、`kubectl-version` プラグインを作った場合、すでに存在している `kubectl version` が常に優先順位が高くなるため、プラグインは実行されないでしょう。
+この制限により、`kubectl` コマンドに対してサブコマンドを新しく追加するプラグインを利用することも *できません*。
+例えば、プラグインを `kubectl-create-foo` と名付けてサブコマンド `kubectl create foo` を追加しようとしても `kubectl-create-foo` はプラグインを無視するでしょう。
+
+`kubectl plugin list` は、このようなことを試みる有効なプラグインに対して警告を表示します。
+
+
+
 ＠＠＠ここから
 
-
-#### Limitations
-
-It is currently not possible to create plugins that overwrite existing `kubectl` commands. For example, creating a plugin `kubectl-version` will cause that plugin to never be executed, as the existing `kubectl version` command will always take precedence over it. Due to this limitation, it is also *not* possible to use plugins to add new subcommands to existing `kubectl` commands. For example, adding a subcommand `kubectl create foo` by naming your plugin `kubectl-create-foo` will cause that plugin to be ignored.
-
-`kubectl plugin list` shows warnings for any valid plugins that attempt to do this.
 
 ## Writing kubectl plugins
 
